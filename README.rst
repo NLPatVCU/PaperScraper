@@ -15,15 +15,9 @@ To contribute an additional scraper to PaperScraper simply do the following (det
 
 1. Clone a local version of this repository and set-up/enter a virtual environment using a Python version of 3.5 or greater.
 2. Run the setup.py file and verify that all package requirements have successfully installed in your virtual environment.
-3. Contribute a scraper by adding a file to the paperscraper/scrapers directory following the naming convention '\<journal\>_scraper.py'.
-Your scraper should implement the BaseScraper interface and simply include the necessary methods (see other scrapers for examples).
-The package will handle all other integration of your scraper into the framework.
-4. PaperScraper utilizes BeautifulSoup4 for navigating markdown. When writing a scraper, each method receives an instance of a BeautifulSoup object
-that wraps the markdown of the queried website. This markdown is then navigated to retrieve relevant information.
-See BeautifulSoup documentation and example here: <https://www.crummy.com/software/BeautifulSoup/bs4/doc/>.
-5. While developing a scraper, one should simultaneously be write a test file under tests/scrapers named 'test_\<journal\>.py' . This will not only allow the concurrent debugging of each method
-as one develops, but more importantly allow for the identifications of any markdown changes (and resulting scraping errors) the publisher makes after development concludes. We emphasis, **writing a
-test is vital** to the longevity of your contribution and subsequently the package. See 'Detailed Contribution Instructions' for a walk-through of testing a contribution.
+3. Contribute a scraper by adding a file to the paperscraper/scrapers directory following the naming convention '\<journal\>_scraper.py'. Your scraper should implement the BaseScraper interface and simply include the necessary methods (see other scrapers for examples). The package will handle all other integration of your scraper into the framework.
+4. PaperScraper utilizes BeautifulSoup4 for navigating markdown. When writing a scraper, each method receives an instance of a BeautifulSoup object that wraps the markdown of the queried website. This markdown is then navigated to retrieve relevant information. See BeautifulSoup documentation and example here: <https://www.crummy.com/software/BeautifulSoup/bs4/doc/>.
+5. While developing a scraper, one should simultaneously be write a test file under tests/scrapers named 'test_\<journal\>.py' . This will not only allow the concurrent debugging of each method as one develops, but more importantly allow for the identifications of any markdown changes (and resulting scraping errors) the publisher makes after development concludes. We emphasis, **writing a test is vital** to the longevity of your contribution and subsequently the package. See 'Detailed Contribution Instructions' for a walk-through of testing a contribution.
 6. Once complete, run all packages tests and submit a pull request.
 
 
@@ -32,14 +26,11 @@ Detailed Contribution Instructions
 We recommend using an IDE such as PyCharm to facilitate the contribution process. It is available
 for free if you are affiliated with a university <https://www.jetbrains.com/student/>. This contribution walk-through assumes that you are utilizing PyCharm Professional Edition.
 
-1. Create a new PyCharm project named 'PaperScraper'. When selecting an interpreter, click the gear icon and create a new virtual environment (venv) in a version of Python 3.5 > (see here for detail: <https://www.jetbrains.com/help/pycharm-edu/creating-virtual-environment.html>).
-A Python venv serves to isolate your current development from all python packages and dependencies on your system.
+1. Create a new PyCharm project named 'PaperScraper'. When selecting an interpreter, click the gear icon and create a new virtual environment (venv) in a version of Python 3.5 > (see here for detail: <https://www.jetbrains.com/help/pycharm-edu/creating-virtual-environment.html>). A Python venv serves to isolate your current development from all python packages and dependencies on your system.
 2. Navigate to the directory of your project and clone this repository into it.
 3. The PyCharm directory view should now update with all relevant project files. Press the button 'Terminal' in the lower-left corner of the IDE to open up an in-IDE terminal instance local to your project - notice the virtual environment is already set.
 4. Execute 'python setup.py' to install PaperScraper and its dependencies into your virtual environment.
 5. Execute 'python setup.py test' to run all tests. Insure that you have an internet connection as some tests require it. Further tests (along with only running single test files) can be run by the command 'nosetests' (details here: <http://nose.readthedocs.io/en/latest/usage.html#selecting-tests>).
-6. Create new files '\<journal\>\_scraper.py' and 'test\_\<journal\>.py' in 'paperscraper/scrapers' and 'tests/scrapers' respectively. Model the structure/naming conventions of these files after other files
-in the directories.
-7. When testing your contribution-in-progress, run the command 'nosetesting -s \<test_file_path\>' to test only a single file. The '-s' parameter will allow print statements
-in your test files to show when tests are run. These should be removed before making a pull request.
+6. Create new files '\<journal\>\_scraper.py' and 'test\_\<journal\>.py' in 'paperscraper/scrapers' and 'tests/scrapers' respectively. Model the structure/naming conventions of these files after other files in the directories.
+7. When testing your contribution-in-progress, run the command 'nosetesting -s \<test_file_path\>' to test only a single file. The '-s' parameter will allow print statements in your test files to show when tests are run. These should be removed before making a pull request.
 
