@@ -4,9 +4,10 @@
 
 .. moduleauthor:: Andriy Mulyar <contact@andriymulyar.com>
 """
-from paperscraper.aggregators.pubmed_aggregator import PubMedAggregator
-from paperscraper.scrapers.science_direct_scraper import ScienceDirect
-from paperscraper.scrapers.acs_scraper import ACS
+from .aggregators.pubmed_aggregator import PubMedAggregator
+from .scrapers.science_direct_scraper import ScienceDirect
+from .scrapers.acs_scraper import ACS
+from .scrapers.pmc_scraper import PMC
 from selenium import webdriver
 import pkg_resources
 
@@ -44,7 +45,7 @@ class PaperScraper():
         self.driver.quit()
 
     def __import_all_scrapers(self):
-        return [ScienceDirect(self.driver), ACS(self.driver)]
+        return [ScienceDirect(self.driver), ACS(self.driver), PMC(self.driver)]
 
     def print_scrapable_websites(self):
         for website_scraper in self.__import_all_scrapers():

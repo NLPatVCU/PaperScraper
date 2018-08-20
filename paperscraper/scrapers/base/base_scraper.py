@@ -23,7 +23,6 @@ class BaseScraper(ABC):
             raise ValueError("Not a %s article: %s" % (", ".join(self.website), url))
 
         driver = self.driver
-        print(url)
         driver.get(url)
         time.sleep(1) # a delay to allow for the loading of paper and all javascript resources
         #TODO test for error in retrieving url
