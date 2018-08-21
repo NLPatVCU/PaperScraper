@@ -26,12 +26,12 @@ Detailed Contribution Instructions
 We recommend using an IDE such as PyCharm to facilitate the contribution process. It is available
 for [free](https://www.jetbrains.com/student) if you are affiliated with a university . This contribution walk-through assumes that you are utilizing PyCharm Professional Edition.
 
-1. Create a new PyCharm project named 'PaperScraper'. When selecting an interpreter, click the gear icon and create a new virtual environment (venv) in a version of Python 3.5 > ([details here](https://www.jetbrains.com/help/pycharm-edu/creating-virtual-environment.html)). A Python venv serves to isolate your current development from all python packages and dependencies on your system.
+1. Create a new PyCharm project named 'PaperScraper'. When selecting an interpreter, click the gear icon and create a new virtual environment (venv) in a version of Python greater than 3.5  ([details here](https://www.jetbrains.com/help/pycharm-edu/creating-virtual-environment.html)). A Python venv serves to isolate your current development from all python packages and dependencies on your system.
 2. Navigate to the directory of your project and clone this repository into it.
 3. The PyCharm directory view should now update with all relevant project files. Press the button 'Terminal' in the lower-left corner of the IDE to open up an in-IDE terminal instance local to your project - notice the virtual environment is already set.
 4. Execute 'python setup.py' to install PaperScraper and its dependencies into your virtual environment.
 5. Execute 'python setup.py test' to run all tests. Insure that you have an internet connection as some tests require it. Further tests (along with only running single test files) can be executed by the command 'nosetests' ([details here](http://nose.readthedocs.io/en/latest/usage.html#selecting-tests)).
-6. Create new files '\<journal\>\_scraper.py' and 'test\_\<journal\>.py' in 'paperscraper/scrapers' and 'tests/scrapers' respectively. Model the structure/naming conventions of these files after other files in the directories.
+6. Create new files '\<journal\>\_scraper.py' and 'test\_\<journal\>.py' in [paperscraper/scrapers](paperscraper/scrapers) and [tests/scrapers](tests/scrapers) respectively. Model the structure/naming conventions of these files after other files in the directories.
 7. When testing your contribution-in-progress, run the command 'nosetesting -s \<test_file_path\>' to test only a single file. The '-s' parameter will allow print statements in your test files to show when tests are run. These should be removed before making a pull request.
 
 License
