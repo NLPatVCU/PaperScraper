@@ -39,6 +39,12 @@ print(scraper.extract_from_url("https://www.ncbi.nlm.nih.gov/pmc/articles/PMC341
   "pdf_url": "https://www.ncbi.nlm.nih.gov//pmc/articles/PMC3418173/pdf/ijn-7-4053.pdf"
 }
 ```
+or use a domain-specific aggregator such as PubMed and let PaperScraper automatically find a link for you:
+```python
+from paperscraper import PaperScraper
+scraper = PaperScraper()
+print(scraper.extract_from_pmid("22915848"))
+```
 
 Contribution
 ============
