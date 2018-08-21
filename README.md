@@ -1,8 +1,11 @@
+
 PaperScraper
 ============
 PaperScraper facilitates the extraction of text and meta-data from scientific journal articles for use in NLP systems.
 In simplest application, query by the URL of a journal article and receive back a structured JSON object containing the article text and metadata.
 More robustly, query by relevant attribute tags of articles (ie. DOI, Pubmed ID) and have an article URL automatically found and extracted from.
+
+![alt text](https://nlp.cs.vcu.edu/images/Edit_NanomedicineDatabase.png "Nanoinformatics")
 
 Use
 ===
@@ -11,7 +14,7 @@ A description of use and short code examples
 
 Contribution
 ============
-To contribute an additional scraper to PaperScraper simply do the following (detailed instructions found in section 'Detailed Contribution Instructions'):
+To contribute an additional scraper to PaperScraper simply do the following (detailed instructions found in section 'Example Contribution Development Set-up'):
 
 1. Clone a local version of this repository and set-up/enter a virtual environment using a Python version of 3.5 or greater.
 2. Run the setup.py file and verify that all package requirements have successfully installed in your virtual environment.
@@ -21,12 +24,12 @@ To contribute an additional scraper to PaperScraper simply do the following (det
 6. Once complete, run all packages tests and submit a pull request.
 
 
-Detailed Contribution Instructions
-==================================
+Example Contribution Development Set-up
+=======================================
 We recommend using an IDE such as PyCharm to facilitate the contribution process. It is available
 for [free](https://www.jetbrains.com/student) if you are affiliated with a university . This contribution walk-through assumes that you are utilizing PyCharm Professional Edition.
 
-1. Create a new PyCharm project named 'PaperScraper'. When selecting an interpreter, click the gear icon and create a new virtual environment (venv) in a version of Python greater than 3.5  ([details here](https://www.jetbrains.com/help/pycharm-edu/creating-virtual-environment.html)). A Python venv serves to isolate your current development from all python packages and dependencies on your system.
+1. Create a new PyCharm project named 'PaperScraper'. When selecting an interpreter, click the gear icon and create a new virtual environment (venv) in a version of Python greater than 3.5  ([details here](https://www.jetbrains.com/help/pycharm-edu/creating-virtual-environment.html)). A Python virtual environment serves to isolate your current development from all python packages and version already installed on your machine.
 2. Navigate to the directory of your project and clone this repository into it.
 3. The PyCharm directory view should now update with all relevant project files. Press the button 'Terminal' in the lower-left corner of the IDE to open up an in-IDE terminal instance local to your project - notice the virtual environment is already set.
 4. Execute 'python setup.py' to install PaperScraper and its dependencies into your virtual environment.
