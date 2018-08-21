@@ -1,5 +1,5 @@
 from unittest import TestCase
-import logging
+from pprint import pprint
 
 from .. import PaperScraper
 from selenium import webdriver
@@ -36,7 +36,7 @@ class TestPaperScraper(TestCase):
         url = "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3418173/"
 
         if scraper.is_scrapable(url):
-            print(scraper.extract_from_url("https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3418173/"))
+            pprint(dict(scraper.extract_from_url("https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3418173/")))
             self.assertIsInstance(scraper.extract_from_url(url), OrderedDict)
 
     def test_invalid_extraction(self):

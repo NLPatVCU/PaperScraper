@@ -13,7 +13,31 @@ Retrieve structured journal articles in three lines:
 ```python
 from paperscraper import PaperScraper
 scraper = PaperScraper()
-print(scraper.extract("http://link-to-journal-article.com"))
+print(scraper.extract_from_url("https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3418173/"))
+```
+```
+{
+  "title": "Gentamicin-loaded nanoparticles show improved antimicrobial effects towards Pseudomonas aeruginosa infection"
+  "abstract": "...",
+  "body": "...",
+  "authors": {
+    "a1": {"first_name": "Sharif", "last_name": "Abdelghany"},
+    "a2": {"first_name": "Derek", "last_name": "Quinn"},
+    "a3": {"first_name": "Rebecca", "last_name": "Ingram"},
+    "a4": {"first_name": "Brendan", "last_name": "Gilmore"},
+    "a5": {"first_name": "Ryan", "last_name": "Donnelly"},
+    "a6": {"first_name": "Clifford", "last_name": "Taggart"},
+    "a7": {"first_name": "Christopher", "last_name": "Scott"}
+  },
+  "doi": "10.2147/IJN.S34341",
+  "keywords": [
+    "anti-microbial",
+    "gentamicin",
+    "PLGA nanoparticles",
+    "Pseudomonas aeruginosa"
+  ],
+  "pdf_url": "https://www.ncbi.nlm.nih.gov//pmc/articles/PMC3418173/pdf/ijn-7-4053.pdf"
+}
 ```
 
 Contribution
