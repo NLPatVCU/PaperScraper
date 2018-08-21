@@ -46,16 +46,27 @@ scraper = PaperScraper()
 print(scraper.extract_from_pmid("22915848"))
 ```
 
+Current Scraping Capabilities
+=============================
+Journal | Scraper |
+--- | --- |
+Science Direct | :heavy_check_mark: |
+Pubmed Central (PMC) | :heavy_multiplication_x: |
+Springer | :heavy_multiplication_x: |
+American Chemical Society (ACS) | :heavy_multiplication_x: |
+Royal Society of Chemistry (RSC) | :heavy_multiplication_x: |
+
 Contribution
 ============
 To contribute an additional scraper to PaperScraper simply do the following (detailed instructions found in section 'Example Contribution Development Set-up'):
 
-1. Clone a local version of this repository and set-up/enter a virtual environment using a Python version of 3.5 or greater.
-2. Run the setup.py file and verify that all package requirements have successfully installed in your virtual environment.
-3. Contribute a scraper by adding a file to the paperscraper/scrapers directory following the naming convention '\<journal\>_scraper.py'. Your scraper should implement the BaseScraper interface and simply include the necessary methods (see other scrapers for examples). The package will handle all other integration of your scraper into the framework.
-4. PaperScraper utilizes BeautifulSoup4 for navigating markdown. When writing a scraper, each method receives an instance of a BeautifulSoup object that wraps the markdown of the queried website. This markdown is then navigated to retrieve relevant information. See [BeautifulSoup documentation and examples](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
-5. While developing a scraper, one should simultaneously be write a test file under tests/scrapers named 'test_\<journal\>.py' . This will not only allow the concurrent debugging of each method as one develops, but more importantly allow for the identifications of any markdown changes (and resulting scraping errors) the publisher makes after development concludes. We emphasis, **writing a test is vital** to the longevity of your contribution and subsequently the package. See 'Detailed Contribution Instructions' for a walk-through of testing a contribution.
-6. Once complete, run all packages tests and submit a pull request.
+1. Fork this repository and clone down a local version of your fork.
+2. set-up/enter a virtual environment using a Python version of 3.5 or greater.
+3. Run the setup.py file and verify that all package requirements have successfully installed in your virtual environment.
+4. Contribute a scraper by adding a file to the [paperscraper/scrapers](paperscraper/scrapers) directory following the naming convention '\<journal\>_scraper.py'. Your scraper should implement the BaseScraper interface and simply include the necessary methods (see other scrapers for examples). The package will handle all other integration of your scraper into the framework.
+5. PaperScraper utilizes BeautifulSoup4 for navigating markdown. When writing a scraper, each method receives an instance of a BeautifulSoup object that wraps the markdown of the queried website. This markdown is then navigated to retrieve relevant information. See [BeautifulSoup documentation and examples](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
+6. While developing a scraper, one should simultaneously be write a test file under [tests/scrapers](tests/scrapers) named 'test_\<journal\>.py' . This will not only allow the concurrent debugging of each method as one develops, but more importantly allow for the identifications of any markdown changes (and resulting scraping errors) the publisher makes after development concludes. We emphasis, **writing a test is vital** to the longevity of your contribution and subsequently the package. See 'Detailed Contribution Instructions' for a walk-through of testing a contribution.
+7. Once complete, run all package tests with nosetests and submit a pull request.
 
 
 Example Contribution Development Set-up
