@@ -1,2 +1,2 @@
-include README.rst
-include webdrivers/*
+include README.md
+include paperscraper/webdrivers/*

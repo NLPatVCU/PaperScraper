@@ -41,5 +41,5 @@ class TestPaperScraper(TestCase):
 
     def test_invalid_extraction(self):
         scraper = self.scraper
-        self.assertIsNone(scraper.extract_from_url("www.google.com"))
+        self.assertIsNone(scraper.extract_from_url("https://www.google.com"))
 

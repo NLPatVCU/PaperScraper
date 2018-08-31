@@ -38,7 +38,7 @@ class PaperScraper():
         if('webdriver_path' is not None):
             self.webdriver_path = webdriver_path
 
-        self.driver = webdriver.Chrome(webdriver_path, chrome_options=options)
+        self.driver = webdriver.Chrome(webdriver_path, options=options)
 
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -47,9 +47,12 @@ class PaperScraper():
     def __import_all_scrapers(self):
         return [ScienceDirect(self.driver), ACS(self.driver), PMC(self.driver)]
 
-    def print_scrapable_websites(self):
-        for website_scraper in self.__import_all_scrapers():
-            print("\n".join(website_scraper.website))
+    def get_scrapable_websites(self):
+        """
+        Retrieves all journal urls that are available to be scraped.
+        :return:
+        """
+        return [website for scraper in self.__import_all_scrapers() for website in scraper.website]
 
     def is_scrapable(self,url):
         """
@@ -74,9 +77,9 @@ class PaperScraper():
                 return website_scraper.extract(url)
         return None
 
-    def extract_from_pmid(self,pmid):
+    def extract_from_pmid(self, pmid):
         """
-
+        Attempts to retrieve a paper given its PMID
 
         :param pmid:
         :return: An OrderedDict object containing the extracted paper
@@ -86,7 +89,6 @@ class PaperScraper():
         for url in [all_sites.get(key)['href'] for key in all_sites.keys()]:
             website_scraper = self.is_scrapable(url)
             if website_scraper is not None:
-                #print(url)
                 return self.extract_from_url(url)
 
         return None
