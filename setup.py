@@ -17,7 +17,7 @@ setup(
     author_email='contact@andriymulyar.com',
     keywords='paperscraper scientific journal web scraper pubmed science-direct acs webscraper',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'License :: OSI Approved :: GNU General Public License (GPL)',
         'Programming Language :: Python :: 3.5',
         'Natural Language :: English',
