@@ -68,6 +68,27 @@ To contribute an additional scraper to PaperScraper simply do the following (det
 6. While developing a scraper, one should simultaneously be write a test file under [tests/scrapers](tests/scrapers) named 'test_\<journal\>.py' . This will not only allow the concurrent debugging of each method as one develops, but more importantly allow for the identifications of any markdown changes (and resulting scraping errors) the publisher makes after development concludes. We emphasis, **writing a test is vital** to the longevity of your contribution and subsequently the package. See 'Detailed Contribution Instructions' for a walk-through of testing a contribution.
 7. Once complete, run all package tests with nosetests and submit a pull request.
 
+Contribution Standards
+======================
+Follow the following formatting standards when developing a scraper:
+
+1. Include all meta-html tags inside of the body such as links (\<a\>), emphasis \<em\>, etc. These can be filtered out by the end user but can also serve to provide meaningful information to some systems.
+2. The OrderedDict containing the paper body should be structured as follows:
+```
+{
+  "body": {
+    "Name of section": {
+        "Name of nested section": {
+            "p1": "The raw text of first paragraph"
+        }
+        "p2": "raw text of second paragraph"
+    },
+    "p3":"Raw text of third paragraph",
+    "p4":"Raw text of fourth paragraph"
+
+  }
+}
+```
 
 Example Contribution Development Set-up
 =======================================
