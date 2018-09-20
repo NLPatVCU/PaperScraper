@@ -77,10 +77,25 @@ for [free](https://www.jetbrains.com/student) if you are affiliated with a unive
 1. Create a new PyCharm project named 'PaperScraper'. When selecting an interpreter, click the gear icon and create a new virtual environment (venv) in a version of Python greater than 3.5  ([details here](https://www.jetbrains.com/help/pycharm-edu/creating-virtual-environment.html)). A Python virtual environment serves to isolate your current development from all python packages and version already installed on your machine.
 2. Fork this repository, navigate to the directory of your project, and clone your fork into it.
 3. The PyCharm directory view should now update with all relevant project files. Press the button 'Terminal' in the lower-left corner of the IDE to open up an in-IDE terminal instance local to your project - notice the virtual environment is already set.
-4. Execute 'python setup.py' to install PaperScraper and its dependencies into your virtual environment.
-5. Execute 'python setup.py test' to run all tests. Insure that you have an internet connection as some tests require it. Further tests (along with only running single test files) can be executed by the command 'nosetests' ([details here](http://nose.readthedocs.io/en/latest/usage.html#selecting-tests)).
+4. Execute `python setup.py` to install PaperScraper and its dependencies into your virtual environment.
+5. Execute `python setup.py test` to run all tests. Insure that you have an internet connection as some tests require it. Further tests (along with only running single test files) can be executed by the command 'nosetests' ([details here](http://nose.readthedocs.io/en/latest/usage.html#selecting-tests)).
 6. Create new files '\<journal\>\_scraper.py' and 'test\_\<journal\>.py' in [paperscraper/scrapers](paperscraper/scrapers) and [tests/scrapers](tests/scrapers) respectively. Model the structure/naming conventions of these files after other files in the directories.
 7. When testing your contribution-in-progress, run the command 'nosetesting -s \<test_file_path\>' to test only a single file. The '-s' parameter will allow print statements in your test files to show when tests are run. These should be removed before making a pull request.
+
+
+Testing
+=======================================
+Ensure that you have an internet connnection before testing.
+To execute all tests, run the command `python setup.py test` from the top-level directory.  
+To execute a single test, run the command `nosetests -s <test_file_path>`.  The -s flag will allow print statements to print to console.  Please remove all print statements before submitting a pull request.
+
+Check out the Nose testing documentation [here](https://nose.readthedocs.io/en/latest/testing.html).  
+
+If you are experiencing errors running tests, make sure Nose is running with a version of python 3.5 or greater.
+If it is not, it is likely an error with Nose not being installed in your virtual environment.  Execute the command `pip install nose -I` to correctly install it.  
+
+When writing tests, cover scraping from a few different correct and incorrect URLs.  Also test that there is valid output
+for key sections such as 'authors' and 'body'.  **Please follow the naming convention for your test files**.  Refer to the test_sciencedirect.py file as a template for your own tests.
 
 License
 =======
