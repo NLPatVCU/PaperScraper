@@ -28,8 +28,8 @@ class ScienceDirect(BaseScraper):
             print(soup)
             raise IOError("Body not found")
 
-        [tag.decompose() for tag in head_section.findAll(["a","span", "figure"])]
-        [tag.unwrap() for tag in head_section.findAll(["em","i","b","sub","sup"])]
+        #[tag.decompose() for tag in head_section.findAll(["a","span", "figure"])]
+        #[tag.unwrap() for tag in head_section.findAll(["em","i","b","sub","sup"])]
 
         body = OrderedDict()
         self.__get_body_helper(head_section, body)
