@@ -52,9 +52,9 @@ Journal | Scraper |
 --- | --- |
 Science Direct | :heavy_check_mark: |
 Pubmed Central (PMC) | :heavy_multiplication_x: |
-Springer | :heavy_multiplication_x: |
+Springer | :heavy_check_mark: |
 American Chemical Society (ACS) | :heavy_multiplication_x: |
-Royal Society of Chemistry (RSC) | :heavy_multiplication_x: |
+Royal Society of Chemistry (RSC) | :heavy_check_mark: |
 
 Contribution
 ============
