@@ -106,7 +106,7 @@ for [free](https://www.jetbrains.com/student) if you are affiliated with a unive
 
 Testing
 =======================================
-Ensure that you have an internet connnection before testing.
+Ensure that you have an internet connection before testing.
 To execute all tests, run the command `python setup.py test` from the top-level directory.  
 To execute a single test, run the command `nosetests -s <test_file_path>`.  The -s flag will allow print statements to print to console.  Please remove all print statements before submitting a pull request.
 
