@@ -21,7 +21,6 @@ class TestScienceDirect(TestCase):
         url = "https://www.sciencedirect.com/science/article/pii/S016635420700469X?via%3Dihub"
 
         if scraper.is_scrapable(url):
-            #pprint(dict(scraper.extract_from_url(url)))
             self.assertIsInstance(scraper.extract_from_url(url), OrderedDict)
 
     def test_valid_extraction_2(self):

@@ -48,15 +48,15 @@ class ScienceDirect(BaseScraper):
         subsections = section.findAll("section", recursive=False)
 
 
-        if(not subsections): #no subsections exist
-            if(paragraphs):
+        if not subsections : #no subsections exist
+            if paragraphs :
                 dict[section_title] = OrderedDict()
                 for i in range(len(paragraphs)):
                     paragraph_text = paragraphs[i].getText()
                     paragraph_text = paragraph_text.replace("()", "") # a slight clean up from link removal
                     dict[section_title]['p' + str(i)] = paragraph_text
         else:
-            if(paragraphs): #has sections but also paragraphs
+            if paragraphs : #has sections but also paragraphs
                 section_name = section_title or 'no_section'
                 dict[section_name] = OrderedDict()
                 for i in range(len(paragraphs)):
