@@ -15,11 +15,11 @@ class RSC(BaseScraper):
 
     def get_authors(self, soup):
 
-        author_tags = soup.findAll("meta", {"name": "citation_author"})
+        author_tags = soup.findAll('meta', {'name': 'citation_author'})
         authors = {}
 
         for i in range(len(author_tags)):
-            author_name = unicodedata.normalize("NFKD", author_tags[i]['content'])
+            author_name = unicodedata.normalize('NFKD', author_tags[i]['content'])
             authors['a' + str(i+1)] = {'last_name': author_name.split(" ")[-1],
                                        'first_name': author_name.split(" ")[0]}
 
@@ -27,52 +27,61 @@ class RSC(BaseScraper):
 
 
     def get_abstract(self, soup):
-        return soup.find("p", {'class': 'abstract'}).getText()
+        return soup.find('p', {'class': 'abstract'}).getText()
 
 
     def get_body(self, soup):
 
         body = OrderedDict()
+        # Stop at these sections because no relevant content.
+        stop_words = ['Notes and references', 'Acknowledgements', 'Conflicts of interest', 'References']
 
         # If there are sections iterate through the webpage and use section names as keys to paragraphs
-        if soup.find("h2") and soup.find("h2").getText() != "Notes and references":
-            for sibling in soup.find("p", {'class': 'abstract'}).next_siblings:
-                if sibling.name == "h2":
-                    # Stop at these sections because no relevant content
-                    if sibling.getText() == "Notes and references" or sibling.getText() == "Acknowledgements":
+        if soup.find('h2') and not(soup.find('h2').getText() in stop_words):
+            counter = 1
+            for section in soup.find('p', {'class': 'abstract'}).next_siblings:
+                if section.name == 'h2':
+                    if section.getText() in stop_words:
                         break
-
-                    paragraphs = OrderedDict()
-                    counter = 1
-                    for tag in sibling.next_siblings:
-                        if tag.name == "p" or tag.name == "span":
-                            paragraphs['p' + str(counter)] = unicodedata.normalize('NFKD', tag.getText())
-                            counter += 1
-                        if tag.name == "h2":
-                            break
-                    body[sibling.getText()] = paragraphs
-
+                    body[section.getText()], counter = self.__get_body_helper(section, counter)
         # There are no sections so just return all relevant text under a "no_section" heading
         else:
             paragraphs = OrderedDict()
             counter = 1
-            for sibling in soup.find("p", {'class': 'abstract'}).next_siblings:
-                if sibling.name == "p" or sibling.name == "span":
-                    # Stop at these sections because no relevant content.
-                    if sibling.getText() == "Notes and references" or sibling.getText() == "Acknowledgements":
-                        break
-                    [tag.unwrap() for tag in sibling.findAll(re.compile('^(?!(a|em|i|span)$).*$'))]
-                    print(sibling.contents)
-                    paragraphs['p' + str(counter)] = unicodedata.normalize('NFKD', sibling.getText())
+            for sibling in soup.find('p', {'class': 'abstract'}).next_siblings:
+                if sibling.name == 'p' or sibling.name == 'span':
+                    [tag.unwrap() for tag in sibling.findAll(re.compile('^(?!(a|em|i)$).*$'))]
+                    paragraphs['p' + str(counter)] = ''.join(str(element) for element in sibling.contents)
                     counter += 1
 
-            body["no_section"] = paragraphs
+            body['no_section'] = paragraphs
 
         return body
 
+    # Helper function called when an article has sections/subsections, recursively parses the text for a section as well as for its subsections
+    def __get_body_helper(self, section, counter):
+        body = OrderedDict()
+        iter_siblings = iter(section.next_siblings)
+        for sibling in iter_siblings:
+            if sibling.name == 'p' or sibling.name == 'span':
+                [tag.unwrap() for tag in sibling.findAll(re.compile('^(?!(a|em|i)$).*$'))]
+                body['p' + str(counter)] = ''.join(str(element) for element in sibling.contents)
+                counter += 1
+            if sibling.name == 'h3':
+                if section.name == 'h3':
+                    break
+                body[sibling.getText()], counter = self.__get_body_helper(sibling, counter)
+                # Skip over tags already parsed when collecting subsections
+                while(True):
+                    parsed_tag = next(iter_siblings, None).next_sibling
+                    if parsed_tag == None or parsed_tag.name == 'h3' or parsed_tag.name == 'h2':
+                        break
+            if sibling.name == 'h2':
+                break
+        return (body, counter)
 
     def get_doi(self, soup):
-        return soup.find("meta", {"name": "citation_doi"})['content']
+        return soup.find('meta', {'name': 'citation_doi'})['content']
 
 
     """ Used to get the keywords from the article
@@ -84,8 +93,8 @@ class RSC(BaseScraper):
 
 
     def get_pdf_url(self, soup):
-        return soup.find('a', {"title": "Link to PDF version"})['href']
+        return soup.find('a', {'title': 'Link to PDF version'})['href']
 
 
     def get_title(self, soup):
-        return soup.find("meta", {"name": "citation_title"})['content']
+        return soup.find('meta', {'name': 'citation_title'})['content']

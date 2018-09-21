@@ -14,7 +14,6 @@ class TestRSC(TestCase):
     def tearDownClass(cls):
         cls.scraper.__exit__(None, None, None)
 
-
     def test_valid_extraction_1(self):
         scraper = self.scraper
         url = "http://pubs.rsc.org/en/content/articlehtml/2017/CC/C7CC04465H"
