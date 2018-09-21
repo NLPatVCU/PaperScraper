@@ -8,6 +8,7 @@ from .aggregators.pubmed_aggregator import PubMedAggregator
 from .scrapers.science_direct_scraper import ScienceDirect
 from .scrapers.acs_scraper import ACS
 from .scrapers.pmc_scraper import PMC
+from .scrapers.rsc_scraper import RSC
 from selenium import webdriver
 import pkg_resources
 
@@ -45,7 +46,7 @@ class PaperScraper():
         self.driver.quit()
 
     def __import_all_scrapers(self):
-        return [ScienceDirect(self.driver), ACS(self.driver), PMC(self.driver)]
+        return [ScienceDirect(self.driver), ACS(self.driver), PMC(self.driver), RSC(self.driver)]
 
     def get_scrapable_websites(self):
         """
