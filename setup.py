@@ -26,7 +26,8 @@ setup(
     ],
     install_requires=[
         'selenium',
-        'beautifulsoup4'
+        'beautifulsoup4',
+        'requests'
     ],
     test_suite='nose.collector',
     tests_require=['nose'],
