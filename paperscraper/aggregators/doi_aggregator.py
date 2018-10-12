@@ -11,18 +11,7 @@ class DOIAggregator:
         :param follow_link: default true
         :return: a dictionary with the first link
         {
-        'l0':{
-            'href' = ""
-            'journal' = ""
-            }
-
-        }
-        'l1':{
-            'href' = ""
-            'journal' = ""
-            }
-
-        }
+        'l0': '[link]'
         ...
         """
 
