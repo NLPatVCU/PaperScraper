@@ -4,11 +4,13 @@
 
 .. moduleauthor:: Andriy Mulyar <contact@andriymulyar.com>
 """
+import os, re, importlib, inspect
+from .scrapers.base.base_scraper import BaseScraper
 from .aggregators.pubmed_aggregator import PubMedAggregator
-from .scrapers.science_direct_scraper import ScienceDirect
-from .scrapers.acs_scraper import ACS
-from .scrapers.pmc_scraper import PMC
-from .scrapers.rsc_scraper import RSC
+#from .scrapers.science_direct_scraper import ScienceDirect
+#from .scrapers.acs_scraper import ACS
+#from .scrapers.pmc_scraper import PMC
+#from .scrapers.rsc_scraper import RSC
 from selenium import webdriver
 import pkg_resources
 
@@ -46,7 +48,17 @@ class PaperScraper():
         self.driver.quit()
 
     def __import_all_scrapers(self):
-        return [ScienceDirect(self.driver), ACS(self.driver), PMC(self.driver), RSC(self.driver)]
+        scrapers= []
+        for file in os.listdir('paperscraper' + os.sep + 'scrapers'):
+            if re.match('.*_scraper.py', file):
+                file_name = '.' + file.split('.')[0]
+                scraper = importlib.import_module(file_name, package='paperscraper.scrapers')
+                class_names = [x[1] for x in scraper.__dict__.items() if x[0] != 'BaseScraper' and
+                               inspect.isclass(x[1]) and issubclass(x[1], BaseScraper)]
+                for class_name in class_names:
+                    instance = class_name(self.driver)
+                    scrapers.append(instance)
+        return scrapers
 
     def get_scrapable_websites(self):
         """
@@ -86,15 +98,21 @@ class PaperScraper():
         :return: An OrderedDict object containing the extracted paper
         """
         pm = PubMedAggregator(self.driver)
-        all_sites = pm.extract(pmid)
-        for url in [all_sites.get(key)['href'] for key in all_sites.keys()]:
-            website_scraper = self.is_scrapable(url)
+        try:
+            all_sites = pm.extract(pmid)
+            for url in[all_sites.get(key)['href'] for key in all_sites.keys()]:
+                website_scraper = self.is_scrapable(url)
             if website_scraper is not None:
                 return self.extract_from_url(url)
+        except IOError:
+            return None
 
         return None
 
     def get_sites_from_pmid(self, pmid):
         pm = PubMedAggregator(self.driver)
-        all_sites = pm.extract(pmid, follow_link=True)
-        return [all_sites.get(key)['href'] for key in all_sites.keys()]
+        try:
+            all_sites = pm.extract(pmid, follow_link=True)
+            return [all_sites.get(key)['href'] for key in all_sites.keys()]
+        except IOError:
+            return None
