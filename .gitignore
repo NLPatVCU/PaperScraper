@@ -62,4 +62,5 @@ fabric.properties
 
 *.pyc
 *.egg-info
+*.eggs/
 venv/
