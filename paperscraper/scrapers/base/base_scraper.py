@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from bs4 import BeautifulSoup
 from collections import OrderedDict
+from selenium.common.exceptions import WebDriverException
 import time
 """An abstract wrapper for a scientific paper website scraper"""
 
@@ -23,20 +24,25 @@ class BaseScraper(ABC):
             raise ValueError("Not a %s article: %s" % (", ".join(self.website), url))
 
         driver = self.driver
-        driver.get(url)
-        time.sleep(1) # a delay to allow for the loading of paper and all javascript resources
-        #TODO test for error in retrieving url
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        try:
+            driver.get(url)
+            time.sleep(1) # a delay to allow for the loading of paper and all javascript resources
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
 
-        return OrderedDict({
-            'title':self.get_title(soup),
-            'authors': self.get_authors(soup),
-            'keywords': self.get_keywords(soup),
-            'abstract': self.get_abstract(soup),
-            'body': self.get_body(soup),
-            'doi':self.get_doi(soup),
-            'pdf_url':self.get_pdf_url(soup)
-        })
+            return OrderedDict({
+                'title':self.get_title(soup),
+                'authors': self.get_authors(soup),
+                'keywords': self.get_keywords(soup),
+                'abstract': self.get_abstract(soup),
+                'body': self.get_body(soup),
+                'doi':self.get_doi(soup),
+                'pdf_url':self.get_pdf_url(soup)
+            })
+        except WebDriverException:
+            print('Error retrieving url' + url)
+            return None
+
+
 
     def is_correct_url(self,url):
         for site in self.website:
