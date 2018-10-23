@@ -2,8 +2,8 @@ import requests
 
 
 class DOIAggregator:
-    def __init__(self, driver):
-        self.driver = driver
+    def __init__(self):
+        pass
 
     def extract(self, doi_number, follow_link=True):
         """
@@ -16,7 +16,9 @@ class DOIAggregator:
         """
 
         r = requests.get('https://doi.org/%s' % doi_number, allow_redirects=False)
-
-        return {
-            'l0': r.headers['Location']
-        }
+        if r.status_code == 404:
+            raise ValueError("Could not find a document with that DOI")
+        else:
+            return {
+                'l0': r.headers['Location']
+            }
