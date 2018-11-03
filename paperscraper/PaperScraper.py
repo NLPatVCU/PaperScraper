@@ -4,6 +4,7 @@
 
 .. moduleauthor:: Andriy Mulyar <contact@andriymulyar.com>
 """
+from paperscraper.aggregators.doi_aggregator import DOIAggregator
 from .aggregators.pubmed_aggregator import PubMedAggregator
 from .scrapers.science_direct_scraper import ScienceDirect
 from .scrapers.acs_scraper import ACS
@@ -11,6 +12,7 @@ from .scrapers.pmc_scraper import PMC
 from .scrapers.rsc_scraper import RSC
 from selenium import webdriver
 import pkg_resources
+
 
 class PaperScraper():
     """This class provides a direct interface to the inner functionality of paperscraper
@@ -20,6 +22,7 @@ class PaperScraper():
        This is the only class needed to utilize all features of paperscraper.
 
     """
+
     def __init__(self, webdriver_path=None):
         """Creates a PaperScraper object
 
@@ -36,11 +39,10 @@ class PaperScraper():
 
         webdriver_path = pkg_resources.resource_filename('paperscraper', 'webdrivers/chromedriver')
 
-        if('webdriver_path' is not None):
+        if ('webdriver_path' is not None):
             self.webdriver_path = webdriver_path
 
         self.driver = webdriver.Chrome(webdriver_path, options=options)
-
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.driver.quit()
@@ -55,7 +57,7 @@ class PaperScraper():
         """
         return [website for scraper in self.__import_all_scrapers() for website in scraper.website]
 
-    def is_scrapable(self,url):
+    def is_scrapable(self, url):
         """
         Checks if a given url is scrapable by PaperScraper
 
@@ -64,7 +66,7 @@ class PaperScraper():
         """
 
         for website_scraper in self.__import_all_scrapers():
-            if(website_scraper.is_correct_url(url)):
+            if (website_scraper.is_correct_url(url)):
                 return website_scraper
         return None
 
@@ -74,7 +76,7 @@ class PaperScraper():
            Returns None if 'url' cannot be scraped.
            """
         for website_scraper in self.__import_all_scrapers():
-            if(website_scraper.is_correct_url(url)):
+            if (website_scraper.is_correct_url(url)):
                 return website_scraper.extract(url)
         return None
 
@@ -98,3 +100,8 @@ class PaperScraper():
         pm = PubMedAggregator(self.driver)
         all_sites = pm.extract(pmid, follow_link=True)
         return [all_sites.get(key)['href'] for key in all_sites.keys()]
+
+    def get_sites_from_doi(self, doi_num):
+        dm = DOIAggregator()
+        extracted_site = dm.extract(doi_num)
+        return [extracted_site]
