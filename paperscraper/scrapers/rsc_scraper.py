@@ -36,27 +36,23 @@ class RSC(BaseScraper):
         # Stop at these sections because no relevant content.
         stop_words = ['Notes and references', 'Acknowledgements', 'Conflicts of interest', 'References']
 
-        # If there are sections iterate through the webpage and use section names as keys to paragraphs
-        if soup.find('h2') and not(soup.find('h2').getText() in stop_words):
-            counter = 1
-            for section in soup.find('p', {'class': 'abstract'}).next_siblings:
-                if section.name == 'h2':
-                    if section.getText() in stop_words:
+        iter_sections = iter(soup.find('p', { 'class': 'abstract' }).next_siblings)
+        counter = 1
+        for section in iter_sections:
+            if section.name == 'p' or section.name == 'span':
+                [tag.unwrap() for tag in section.findAll(re.compile('^(?!(a|em|i)$).*$'))]
+                body['p' + str(counter)] = ''.join(str(element) for element in section.contents)
+                counter += 1
+            elif section.name == 'h2':
+                if section.getText() in stop_words:
+                    break
+                body[section.getText()], counter = self.__get_body_helper(section, counter)
+                while(True):
+                    parsed_section = next(iter_sections, None).next_sibling
+                    if parsed_section == None or parsed_section.name == 'h2':
                         break
-                    body[section.getText()], counter = self.__get_body_helper(section, counter)
-        # There are no sections so just return all relevant text under a "no_section" heading
-        else:
-            paragraphs = OrderedDict()
-            counter = 1
-            for sibling in soup.find('p', {'class': 'abstract'}).next_siblings:
-                if sibling.name == 'p' or sibling.name == 'span':
-                    [tag.unwrap() for tag in sibling.findAll(re.compile('^(?!(a|em|i)$).*$'))]
-                    paragraphs['p' + str(counter)] = ''.join(str(element) for element in sibling.contents)
-                    counter += 1
-
-            body['no_section'] = paragraphs
-
         return body
+
 
     # Helper function called when an article has sections/subsections, recursively parses the text for a section as well as for its subsections
     def __get_body_helper(self, section, counter):

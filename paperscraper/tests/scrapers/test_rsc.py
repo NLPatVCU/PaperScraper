@@ -30,6 +30,14 @@ class TestRSC(TestCase):
             pprint(scraper.extract_from_url(url))
             self.assertIsInstance(scraper.extract_from_url(url), OrderedDict)
 
+    def test_valid_extraction_3(self):
+        scraper = self.scraper
+        url = "https://pubs.rsc.org/en/content/articlehtml/2014/nr/c4nr00166d"
+
+        if scraper.is_scrapable(url):
+            pprint(scraper.extract_from_url(url))
+            self.assertIsInstance(scraper.extract_from_url(url), OrderedDict)
+
     def test_invalid_extraction_1(self):
         scraper = self.scraper
         self.assertIsNone(scraper.extract_from_url("google.com"))
