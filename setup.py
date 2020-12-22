@@ -11,7 +11,7 @@ setup(
     license='GNU GENERAL PUBLIC LICENSE',
     description='A web scraping tool to extract the text of scientific papers from journals accessible over university networks.',
     long_description=readme(),
-    packages=['paperscraper'],
+    packages=setuptools.find_packages(),
     url='https://github.com/NanoNLP/PaperScraper',
     author=__authors__,
     author_email='contact@andriymulyar.com',
