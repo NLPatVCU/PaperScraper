@@ -12,21 +12,29 @@ class ACS(BaseScraper):
         self.website = ["pubs.acs.org"]
 
     def get_authors(self, soup):
-        author_links = soup.find("div", id="articleMeta").findAll("a", id="authors")
+        author_tags = soup.findAll("meta",attrs={'name':'dc.Creator'})
+        author_names = []
+        for author in author_tags:
+            author_names.append(author.attrs.get('content'))
+
         authors = {}
 
-        for i in range(len(author_links)):
-            authors['a' + str(i + 1)] = {'last_name': author_links[i].contents[0].split(" ")[-1],
-                                         'first_name': author_links[i].contents[0].split(" ")[0]}
+        for i in range(len(author_names)):
+            authors['a' + str(i + 1)] = {'last_name': author_names[i].split(" ")[-1],
+                                         'first_name': author_names[i].split(" ")[0]}
 
         return authors
 
     def get_abstract(self, soup):
-        return soup.find("p", {'class': 'articleBody_abstractText'}).getText()
+        abstractTag = soup.find("p", {'class': 'articleBody_abstractText'})
+        if abstractTag is not None:
+            return abstractTag.getText()
+        return None
 
     def get_body(self, soup):
 
         body = []
+
 
         def is_reference(tag):
             prev_neg = False
@@ -41,8 +49,8 @@ class ACS(BaseScraper):
         [s.extract() for s in soup.find_all("table")]
         [s.extract() for s in soup.find_all({'class': "figure"})]
 
-        article_sections = soup.find_all("div", class_='NLM_sec')
-
+        article_sections = soup.find_all("div", attrs={'class': 'NLM_sec'})
+        print(article_sections)
         for section in article_sections:
 
             sectionTitle = section.find('h2')
@@ -52,7 +60,7 @@ class ACS(BaseScraper):
             else:
                 sectionTitle = "NO SECTION HEADER PROVIDED"
 
-            paragraphs = section.find_all("div", class_="NLM_p")
+            paragraphs = section.find_all("div", {'class':"NLM_p"})
 
             for i, paragraph in enumerate(paragraphs):
                 paragraph_text = paragraph.get_text()
@@ -61,9 +69,9 @@ class ACS(BaseScraper):
         return body
 
     def get_doi(self, soup):
-        doi_block = soup.find("div", id="doi")
-        doi_block.next_element.extract()
-        return doi_block.getText()
+        doi_block = soup.find("meta",attrs={'name':'dc.Identifier','scheme':'doi'})
+        doi = doi_block.attrs.get('content')
+        return doi
 
     """ Used to get the keywords from the article
     
@@ -75,11 +83,7 @@ class ACS(BaseScraper):
 
     def get_pdf_url(self, soup):
         return "https://pubs.acs.org" + \
-               soup.find(
-                   "ul", {"class": "publicationFormatList icons"}
-               ).find(
-                   "li", {'class': 'pdf-low-res'}
-               ).find("a")['href']
+               soup.find("a",{'title':'PDF'})['href']
 
     def get_title(self, soup):
         return soup.find("span", {"class": "hlFld-Title"}).getText()

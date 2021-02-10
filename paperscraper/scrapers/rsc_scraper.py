@@ -27,7 +27,7 @@ class RSC(BaseScraper):
 
 
     def get_abstract(self, soup):
-        return soup.find('p', {'class': 'abstract'}).getText()
+        return soup.find('meta', {'name': 'citation_abstract'})['content']
 
 
     def get_body(self, soup):
@@ -39,7 +39,7 @@ class RSC(BaseScraper):
         # If there are sections iterate through the webpage and use section names as keys to paragraphs
         if soup.find('h2') and not(soup.find('h2').getText() in stop_words):
             counter = 1
-            for section in soup.find('p', {'class': 'abstract'}).next_siblings:
+            for section in soup.find('div', {'id': 'pnlArticleContent'}).children:
                 if section.name == 'h2':
                     if section.getText() in stop_words:
                         break
@@ -48,7 +48,7 @@ class RSC(BaseScraper):
         else:
             paragraphs = OrderedDict()
             counter = 1
-            for sibling in soup.find('p', {'class': 'abstract'}).next_siblings:
+            for sibling in soup.find('div', {'id': 'pnlArticleContent'}).children:
                 if sibling.name == 'p' or sibling.name == 'span':
                     [tag.unwrap() for tag in sibling.findAll(re.compile('^(?!(a|em|i)$).*$'))]
                     paragraphs['p' + str(counter)] = ''.join(str(element) for element in sibling.contents)
@@ -93,7 +93,7 @@ class RSC(BaseScraper):
 
 
     def get_pdf_url(self, soup):
-        return soup.find('a', {'title': 'Link to PDF version'})['href']
+        return soup.find('meta', {'name': 'citation_pdf_url'})['content']
 
 
     def get_title(self, soup):

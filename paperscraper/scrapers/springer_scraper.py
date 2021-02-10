@@ -9,6 +9,7 @@ class Springer(BaseScraper):
         self.website = ["link.springer.com"]
 
     def get_authors(self, soup):
+        print("testing")
         authors_list = soup.findAll("meta", {"name": "citation_author"})
         return [author['content'] for author in authors_list]
 

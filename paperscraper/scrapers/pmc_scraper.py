@@ -1,5 +1,5 @@
 from paperscraper.scrapers.base.base_scraper import BaseScraper
-
+import re
 """A scraper of a PMC articles"""
 
 
@@ -20,8 +20,15 @@ class PMC(BaseScraper):
         return authors
 
     def get_abstract(self, soup):
-        # TODO get working
-        pass
+
+        for heads in soup.find("h2", text=re.compile(r'Abstract')).next_siblings:
+            if heads.name == "div":
+                abstract = heads.get_text()
+                break
+
+        return abstract
+
+
         # abstract = soup.find("div", id=lambda x: x and x.startswith('__abstract'))
         # print(abstract)
         # print(soup.find("p", id="__p1"))
@@ -29,8 +36,16 @@ class PMC(BaseScraper):
         # return abstract.find("p").contents[0]
 
     def get_body(self, soup):
-        # TODO get working
-        pass
+        headingNames = [r'Introduction',r'Materials and methods',r'Results',r'Discussion',r'Conclusion']
+        text = ""
+        for headerName in headingNames:
+            for h2 in soup.find("h2", text=re.compile(headerName)).next_siblings:
+                if h2.name == "p":
+                    text =text + h2.get_text()
+
+
+        return text
+
 
     def get_doi(self, soup):
         return soup.find("span", {"class": "doi"}).find("a").getText()
