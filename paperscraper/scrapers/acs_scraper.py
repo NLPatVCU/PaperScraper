@@ -35,7 +35,6 @@ class ACS(BaseScraper):
 
         body = []
 
-
         def is_reference(tag):
             prev_neg = False
             if tag.previous_sibling:
@@ -50,7 +49,6 @@ class ACS(BaseScraper):
         [s.extract() for s in soup.find_all({'class': "figure"})]
 
         article_sections = soup.find_all("div", attrs={'class': 'NLM_sec'})
-        print(article_sections)
         for section in article_sections:
 
             sectionTitle = section.find('h2')

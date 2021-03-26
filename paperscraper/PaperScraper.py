@@ -12,7 +12,8 @@ from .scrapers.pmc_scraper import PMC
 from .scrapers.rsc_scraper import RSC
 from selenium import webdriver
 import pkg_resources
-
+import requests
+import pdf2txt.pdf2txt
 
 class PaperScraper():
     """This class provides a direct interface to the inner functionality of paperscraper
@@ -36,6 +37,7 @@ class PaperScraper():
         """
         options = webdriver.ChromeOptions()
         options.add_argument('headless')
+        options.add_argument('--enable-javascript')
 
         webdriver_path = pkg_resources.resource_filename('paperscraper', 'webdrivers/chromedriver')
 
@@ -105,3 +107,29 @@ class PaperScraper():
         dm = DOIAggregator()
         extracted_site = dm.extract(doi_num)
         return [extracted_site]
+    def extract_body_from_url(self,url):
+        """
+                   Return a JSON file containing a the full text and meta data of the paper located at 'url'.
+                   Returns None if 'url' cannot be scraped.
+                   """
+        body = None
+        for website_scraper in self.__import_all_scrapers():
+            if (website_scraper.is_correct_url(url)):
+
+                extracted = website_scraper.extract(url)
+                if extracted['body']:
+                    body = ""
+                    for section in extracted['body']:
+                        body = body + section['text']                    
+                else:
+                    if extracted['pdf_url']:
+                        url = extracted['pdf_url']
+                        r = requests.get(url,allow_redirects=True)
+                        open('temp.pdf','wb').write(r.content)
+                        pdf2txt.pdf2txt.file_convert("temp.pdf")
+                        f = open("temp.txt","r")
+                        body = f.read()
+                    else:
+                        return None
+
+        return body
