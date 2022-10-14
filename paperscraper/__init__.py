@@ -3,7 +3,7 @@
 .. moduleauthor:: Andriy Mulyar <contact@andriymulyar.com>
 
 """
-from .PaperScraper import PaperScraper
+from paperscaper import PaperScraper
 
 __version__ = '0.2'
 __authors__ = "Andriy Mulyar, Brandon Watts, Bridget McInnes"
